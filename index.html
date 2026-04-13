@@ -1,243 +1,478 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Visualizaciones de uso de transporte público desde Junio a Septiembre</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Challenge Técnico — Customer Success Analyst | Complif</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#1A56DB;--blue-light:#E8F0FE;--blue-dark:#0F3A8E;--dark:#1F1F1F;--gray:#666;--gray-light:#F7F8FA;--border:#E5E7EB;--green:#16A34A;--purple:#7C3AED;--orange:#EA580C;--red:#DC2626}
+body{font-family:'Inter',sans-serif;color:var(--dark);line-height:1.7;background:#fff}
+.container{max-width:900px;margin:0 auto;padding:0 24px}
 
-  <!-- Fuente Google (títulos + texto) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+/* NAV */
+nav{position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:12px 0}
+nav .container{display:flex;align-items:center;gap:20px;overflow-x:auto}
+nav a{font-size:13px;color:var(--gray);text-decoration:none;white-space:nowrap;padding:6px 12px;border-radius:6px;transition:all .2s;font-weight:500}
+nav a:hover,nav a.active{color:var(--blue);background:var(--blue-light)}
+nav .logo{font-weight:700;font-size:16px;color:var(--dark);letter-spacing:-0.5px}
 
-  <style>
-    :root{
-      --bg:#ffffff;
-      --card:#f9f9f9;
-      --ink:#111111;
-      --ink-soft:#555555;
-      --accent:#0099cc;
-      --muted:#777777;
-      --ring: rgba(0,153,204,.25);
-    }
+/* HERO */
+.hero{padding:80px 0 60px;border-bottom:1px solid var(--border)}
+.hero-badge{display:inline-block;font-size:12px;font-weight:600;color:var(--blue);background:var(--blue-light);padding:6px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.hero h1{font-size:36px;font-weight:700;letter-spacing:-1px;line-height:1.2;margin-bottom:12px}
+.hero .subtitle{font-size:18px;color:var(--gray);font-weight:400}
+.hero .author{margin-top:24px;font-size:14px;color:var(--gray)}
+.hero .author strong{color:var(--dark)}
 
-    /* Layout base */
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:#fff;
-      color:var(--ink);
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height:1.45;
-    }
+/* SECTIONS */
+section{padding:60px 0;border-bottom:1px solid var(--border)}
+section:last-child{border-bottom:none}
+h2{font-size:28px;font-weight:700;letter-spacing:-0.5px;margin-bottom:8px;color:var(--dark)}
+h3{font-size:20px;font-weight:600;margin:32px 0 12px;color:var(--dark)}
+h4{font-size:16px;font-weight:600;margin:24px 0 8px;color:var(--blue)}
+.section-badge{display:inline-block;font-size:11px;font-weight:600;color:var(--blue);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+p{margin-bottom:16px;font-size:15px}
 
-    .container{
-      max-width:1100px;
-      margin-inline:auto;
-      padding:28px 18px 64px;
-    }
+/* CODE */
+pre{background:var(--dark);color:#E5E7EB;padding:20px 24px;border-radius:12px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;margin:16px 0 24px}
+pre .comment{color:#6B7280}
+pre .keyword{color:#60A5FA}
+pre .string{color:#34D399}
+code{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--gray-light);padding:2px 6px;border-radius:4px}
 
-    /* Header */
-    .page-title{
-      font-family:Outfit, Inter, sans-serif;
-      font-weight:800;
-      letter-spacing:.2px;
-      font-size:clamp(26px, 2.6vw + 12px, 44px);
-      margin:8px 0 6px;
-      background:linear-gradient(90deg,#0077aa,#00bbdd 60%,#33ccff);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
+/* IMAGES */
+.img-container{margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.img-container img{width:100%;display:block}
+.img-caption{font-size:12px;color:var(--gray);padding:10px 16px;background:var(--gray-light);text-align:center}
 
-    .page-sub{
-      margin:0 0 26px;
-      color:var(--ink-soft);
-      font-size:15px;
-    }
+/* CARDS */
+.card{background:var(--gray-light);border-radius:12px;padding:24px;margin:16px 0}
+.card-blue{background:var(--blue-light);border-left:4px solid var(--blue)}
+.card-green{background:#F0FDF4;border-left:4px solid var(--green)}
+.card-purple{background:#F5F3FF;border-left:4px solid var(--purple)}
+.card-orange{background:#FFF7ED;border-left:4px solid var(--orange)}
+.card h4{margin-top:0;color:inherit}
 
-    /* Card / sección */
-    .card{
-      background:#fdfdfd;
-      border:1px solid #e0e0e0;
-      border-radius:16px;
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
-      padding:18px 18px 10px;
-      margin:18px 0 26px;
-      position:relative;
-      overflow:hidden;
-    }
+/* TABLE */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th{background:var(--dark);color:#fff;padding:10px 16px;text-align:left;font-weight:500;font-size:13px}
+td{padding:10px 16px;border-bottom:1px solid var(--border)}
+tr:nth-child(even){background:var(--gray-light)}
 
-    .card h2{
-      font-family:Outfit, Inter, sans-serif;
-      font-weight:700;
-      font-size:clamp(18px, 1.2vw + 12px, 24px);
-      margin:6px 4px 12px;
-      color:#222;
-      letter-spacing:.2px;
-    }
+/* EMBED */
+.embed-container{margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid var(--border)}
+.embed-container iframe{width:100%;height:500px;border:none}
 
-    /* Badges / créditos */
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size:12px;
-      color:var(--muted);
-      border:1px solid #ddd;
-      background:#fafafa;
-      padding:6px 10px;
-      border-radius:999px;
-      margin:10px 4px 4px;
-    }
-    .dot{
-      width:8px; height:8px; border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 0 3px var(--ring);
-    }
+/* STEPS */
+.step{display:flex;gap:16px;margin:20px 0;align-items:flex-start}
+.step-num{min-width:36px;height:36px;background:var(--blue);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.step-content{flex:1}
+.step-content strong{color:var(--dark)}
 
-    /* Contenedor de iframes/embeds */
-    .viz{
-      margin:8px 0 6px;
-      border-radius:12px;
-      overflow:hidden;
-      border:1px solid #ddd;
-      background:#fff;
-    }
+/* TAGS */
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px}
+.tag-blue{background:var(--blue-light);color:var(--blue)}
+.tag-green{background:#DCFCE7;color:var(--green)}
+.tag-orange{background:#FFF7ED;color:var(--orange)}
+.tag-purple{background:#F5F3FF;color:var(--purple)}
+.tag-red{background:#FEF2F2;color:var(--red)}
 
-    /* Imagen (RawGraphs) */
-    .viz img{ width:100%; height:auto; display:block; }
+/* COLLAPSIBLE */
+details{margin:12px 0;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+details summary{padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;background:var(--gray-light);list-style:none;display:flex;align-items:center;gap:8px}
+details summary::before{content:'▸';transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details .details-content{padding:20px}
 
-    /* Tableau alto auto (se ajusta por script) */
-    .tableauPlaceholder, .tableauPlaceholder object{
-      width:100%;
-      border:0;
-      border-radius:12px;
-    }
+/* FOOTER */
+footer{padding:40px 0;text-align:center;color:var(--gray);font-size:13px;border-top:1px solid var(--border)}
 
-    /* Separador suave */
-    .sep{
-      height:1px;
-      background:linear-gradient(90deg, transparent, #ccc, transparent);
-      margin:24px 0;
-    }
-
-    /* Footer mini */
-    .foot-note{
-      margin:8px 2px 0;
-      color:var(--muted);
-      font-size:12px;
-      text-align:center;
-    }
-
-    /* Links */
-    a{ color:#0077aa; text-decoration:none }
-    a:hover{ text-decoration:underline }
-
-    /* Pequeños ajustes responsive */
-    @media (max-width:640px){
-      .badge{ font-size:11px }
-    }
-  </style>
+/* SMOOTH SCROLL */
+html{scroll-behavior:smooth}
+</style>
 </head>
-
 <body>
-  <div class="container">
-    <h1 class="page-title">Visualizaciones de uso de transporte público</h1>
-    <p class="page-sub">Exploración interactiva de patrones de uso, gasto y picos horarios con diferentes herramientas.</p>
 
-    <!-- Flourish -->
-    <section class="card">
-      <h2>¿Cómo varía el uso y gasto del transporte público a lo largo de la semana?</h2>
-      <div class="viz">
-        <div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/25246188">
-          <script src="https://public.flourish.studio/resources/embed.js"></script>
-          <noscript>
-            <img src="https://public.flourish.studio/visualisation/25246188/thumbnail" width="100%" alt="bar-chart-race visualization" />
-          </noscript>
-        </div>
-      </div>
-      <span class="badge"><span class="dot"></span> Hecho con <strong>Flourish</strong></span>
-    </section>
+<nav>
+<div class="container">
+<span class="logo">complif.</span>
+<a href="#sql">1. SQL</a>
+<a href="#apis">2. APIs</a>
+<a href="#ticket">3. Pedido a TECH</a>
+<a href="#procesos1">4. Procesos I</a>
+<a href="#procesos2">5. Procesos II</a>
+<a href="#comunicacion">6. Comunicación</a>
+</div>
+</nav>
 
-    <!-- Datawrapper -->
-    <section class="card">
-      <div class="viz">
-        <div id="datawrapper-vis-Ytith" style="min-height:449px">
-          <script type="text/javascript" defer src="https://datawrapper.dwcdn.net/Ytith/embed.js" charset="utf-8" data-target="#datawrapper-vis-Ytith"></script>
-          <noscript>
-            <img src="https://datawrapper.dwcdn.net/Ytith/full.png" alt="Viajes por franja horaria, comparados entre meses (Grouped column chart)" />
-          </noscript>
-        </div>
-      </div>
-      <span class="badge"><span class="dot"></span> Hecho con <strong>Datawrapper</strong></span>
-    </section>
+<!-- HERO -->
+<div class="hero">
+<div class="container">
+<div class="hero-badge">Challenge Técnico</div>
+<h1>Customer Success Analyst</h1>
+<p class="subtitle">Resolución del challenge técnico para el puesto de CSA en Complif</p>
+<p class="author"><strong>Carolina Belén Rosa</strong> · Lic. en Negocios y Tecnología · Abril 2026</p>
+</div>
+</div>
 
-    <!-- RawGraphs -->
-    <section class="card">
-      <h2>¿Cuáles son las horas pico de uso de transporte público?</h2>
-      <div class="viz">
-        <img src="horaentrada (1).svg" alt="Picos de horas de uso de transporte público">
-      </div>
-      <span class="badge"><span class="dot"></span> Hecho con <strong>RawGraphs</strong></span>
-    </section>
+<!-- ===================== EJERCICIO 1: SQL ===================== -->
+<section id="sql">
+<div class="container">
+<div class="section-badge">Ejercicio 1</div>
+<h2>SQL — Dólar MEP</h2>
 
-    <!-- Power BI -->
-    <section class="card">
-      <h2>Dashboard interactivo de transporte público (Power BI)</h2>
-      <div class="viz">
-        <iframe title="vistatransporte" width="100%" height="520"
-          src="https://app.powerbi.com/view?r=eyJrIjoiZTIzMTRlNmEtNzdlMC00ZDk2LWJmYWMtMDMyNTVmYjhlYTg3IiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9"
-          frameborder="0" allowfullscreen="true">
-        </iframe>
-      </div>
-      <span class="badge"><span class="dot"></span> Hecho con <strong>Power BI</strong></span>
-    </section>
+<h3>Contexto del problema</h3>
+<p>El dólar MEP es una operación de compra o venta de dólares a través de instrumentos financieros. El tipo de cambio implícito surge del cociente entre los precios de compra/venta en cada moneda:</p>
+<div class="card card-blue">
+<p><strong>TC Venta</strong> (lo que pago por 1 USD) = bid_ars ÷ ask_usd<br>
+<strong>TC Compra</strong> (lo que recibo por 1 USD) = ask_ars ÷ bid_usd</p>
+</div>
 
-    <!-- Tableau -->
-    <section class="card">
-      <h2>Patrones de uso del transporte por día y hora</h2>
-      <div class="viz">
-        <div class='tableauPlaceholder' id='viz1758521864714' style='position: relative'>
-          <noscript>
-            <a href='#'><img alt='Patrones de uso del transporte por día y hora'
-              src='https://public.tableau.com/static/images/NN/NNQZQTKRF/1_rss.png' style='border: none' /></a>
-          </noscript>
-          <object class='tableauViz' style='display:none;'>
-            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-            <param name='embed_code_version' value='3' />
-            <param name='path' value='shared/NNQZQTKRF' />
-            <param name='toolbar' value='yes' />
-            <param name='static_image' value='https://public.tableau.com/static/images/NN/NNQZQTKRF/1.png' />
-            <param name='animate_transition' value='yes' />
-            <param name='display_static_image' value='yes' />
-            <param name='display_spinner' value='yes' />
-            <param name='display_overlay' value='yes' />
-            <param name='display_count' value='yes' />
-            <param name='language' value='en-US' />
-            <param name='filter' value='publish=yes' />
-          </object>
-        </div>
-      </div>
-      <span class="badge"><span class="dot"></span> Hecho con <strong>Tableau</strong></span>
-    </section>
+<h3>Mi razonamiento</h3>
 
-    <div class="sep"></div>
-    <p class="foot-note">© 2025 · Exploración de datos de transporte · Hecho con cariño y varias herramientas 💙</p>
-  </div>
+<h4>1. Exploración de los datos</h4>
+<p>Lo primero que hice fue explorar la tabla para entender qué estaba mirando. Noté dos cosas clave: la tabla tiene registros de precio del mismo bono en dos monedas (ARS y USD), pero las actualizaciones no ocurren al mismo tiempo. Hay momentos donde se actualiza solo el precio en pesos y momentos donde se actualiza solo el de dólares. Además, hay muchas filas consecutivas con los mismos valores (actualizaciones repetidas sin cambio real de precio).</p>
 
-  <!-- Script de Tableau (ajusta alto automáticamente) -->
-  <script>
-    const divElement = document.getElementById('viz1758521864714');
-    const vizElement = divElement.getElementsByTagName('object')[0];
-    vizElement.style.width = '100%';
-    vizElement.style.height = (divElement.offsetWidth * 0.68) + 'px';
-    const scriptElement = document.createElement('script');
-    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+<h4>2. Primer enfoque descartado: cuartetos</h4>
+<p>Mi primer instinto fue agrupar los 4 valores que necesito (bid ARS, ask ARS, bid USD, ask USD) por datetime, guardarlos como un bloque y compararlos con el siguiente. Pero esto no funciona porque los datetime de ARS y USD casi nunca coinciden, así que no puedo hacer un JOIN directo por timestamp.</p>
 
-    // reajuste simple en resize
-    window.addEventListener('resize', () => {
-      vizElement.style.height = (divElement.offsetWidth * 0.68) + 'px';
-    });
-  </script>
+<h4>3. Pivotear la tabla</h4>
+<p>Cambié de estrategia y decidí pivotear la tabla: en vez de tener filas separadas por moneda, armo columnas separadas (bid_ars, ask_ars, bid_usd, ask_usd). Cuando una fila es de ARS, las columnas de USD quedan vacías (NULL), y viceversa. De esta forma puedo leer todo horizontalmente y no tener que ir buscando y matcheando entre filas de distintas monedas.</p>
+
+<div class="img-container">
+<img src="img/sql_step1.png" alt="Paso 1: tabla pivoteada con NULLs">
+<div class="img-caption">Resultado del pivoteo: cada fila tiene ARS o USD, el otro queda NULL</div>
+</div>
+
+<h4>4. Rellenar NULLs — "arrastrar de arriba"</h4>
+<p>El pivoteo me deja con NULLs en todos lados. La solución es arrastrar el último valor conocido: si a las 15:00:49 el bid USD era 27.80 y a las 15:00:50 no hay actualización de USD, asumo que sigue valiendo 27.80.</p>
+<p>Para implementar esto usé una técnica en dos pasos. Primero creo un contador por cada columna que solo se incrementa cuando aparece un valor nuevo (no-NULL). Esto genera "grupos": cada grupo tiene un único valor real y cero o más NULLs debajo. Después, dentro de cada grupo, uso <code>MAX()</code> para obtener ese valor real. MAX ignora NULLs, y como cada grupo tiene un solo valor, me lo devuelve directamente. Elegí MAX en vez de FIRST_VALUE porque MAX sin ORDER BY es más performante: el motor no necesita ordenar dentro de cada partición.</p>
+
+<div class="img-container">
+<img src="img/sql_step2.png" alt="Paso 2: grupos creados">
+<div class="img-caption">Los grupos se crean con COUNT: el contador sube solo cuando aparece un valor nuevo</div>
+</div>
+
+<div class="img-container">
+<img src="img/sql_step3.png" alt="Paso 3: valores rellenados">
+<div class="img-caption">MAX dentro de cada grupo rellena los NULLs con el último valor conocido</div>
+</div>
+
+<h4>5. Filtrar filas sin cambio real</h4>
+<p>Después de rellenar, muchas filas consecutivas quedan con los mismos 4 valores. Calcular el tipo de cambio en esas filas es innecesario. Entonces uso <code>LAG</code> sobre los 4 valores para comparar cada fila con la inmediata de arriba. Si los 4 son iguales, descarto la fila. Solo me quedo con las filas donde al menos uno cambió. Esto responde directamente a la pista del enunciado: "un cambio de precio ocurre cuando cambia alguno de los precios".</p>
+
+<h4>6. Calcular tipo de cambio</h4>
+<p>Solo en las filas que sobreviven el filtro, calculo: TC Venta = bid_ars ÷ ask_usd y TC Compra = ask_ars ÷ bid_usd. Esto minimiza la cantidad de divisiones que ejecuta el motor.</p>
+
+<h3>Funciones técnicas de SQL</h3>
+<table>
+<tr><th>Función</th><th>Qué hace</th><th>Por qué la elegí</th></tr>
+<tr><td><code>CASE WHEN</code></td><td>Devuelve un valor según condición</td><td>Pivoteo: si la moneda es ARS pongo el bid en bid_ars, si no queda NULL</td></tr>
+<tr><td><code>COUNT() OVER</code></td><td>Cuenta valores no-NULL acumulados</td><td>Crea grupos: el contador sube solo con valores nuevos</td></tr>
+<tr><td><code>MAX() OVER</code></td><td>Obtiene el máximo dentro de cada grupo</td><td>Rellena NULLs. Más performante que FIRST_VALUE porque no requiere ORDER BY</td></tr>
+<tr><td><code>LAG() OVER</code></td><td>Trae el valor de la fila anterior</td><td>Detecta cambios: comparo actual vs anterior</td></tr>
+<tr><td><code>IS DISTINCT FROM</code></td><td>Compara tratando NULL como valor</td><td>Evita que la primera fila se pierda (donde LAG devuelve NULL)</td></tr>
+<tr><td><code>CTEs (WITH)</code></td><td>Subconsultas encadenadas con nombre</td><td>Organiza la query en pasos legibles</td></tr>
+</table>
+
+<h3>Query final</h3>
+<pre><span class="comment">-- PASO 1: Pivotear la tabla
+-- Separo ARS y USD en columnas distintas. Donde no hay dato, queda NULL.</span>
+<span class="keyword">WITH</span> pivotada <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    datetime,
+    <span class="keyword">CASE WHEN</span> moneda = <span class="string">'ARS'</span> <span class="keyword">THEN</span> bid <span class="keyword">END AS</span> bid_ars,
+    <span class="keyword">CASE WHEN</span> moneda = <span class="string">'ARS'</span> <span class="keyword">THEN</span> ask <span class="keyword">END AS</span> ask_ars,
+    <span class="keyword">CASE WHEN</span> moneda = <span class="string">'USD'</span> <span class="keyword">THEN</span> bid <span class="keyword">END AS</span> bid_usd,
+    <span class="keyword">CASE WHEN</span> moneda = <span class="string">'USD'</span> <span class="keyword">THEN</span> ask <span class="keyword">END AS</span> ask_usd
+  <span class="keyword">FROM</span> precios
+),
+
+<span class="comment">-- PASO 2: Crear grupos para cada columna
+-- COUNT cuenta solo no-NULLs. Cada valor nuevo = nuevo grupo.</span>
+con_grupos <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    datetime, bid_ars, ask_ars, bid_usd, ask_usd,
+    <span class="keyword">COUNT</span>(bid_ars) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> grp_bid_ars,
+    <span class="keyword">COUNT</span>(ask_ars) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> grp_ask_ars,
+    <span class="keyword">COUNT</span>(bid_usd) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> grp_bid_usd,
+    <span class="keyword">COUNT</span>(ask_usd) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> grp_ask_usd
+  <span class="keyword">FROM</span> pivotada
+),
+
+<span class="comment">-- PASO 3: Rellenar NULLs
+-- Cada grupo tiene un solo valor real. MAX lo encuentra (ignora NULLs).</span>
+rellenada <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    datetime,
+    <span class="keyword">MAX</span>(bid_ars) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> grp_bid_ars) <span class="keyword">AS</span> bid_ars,
+    <span class="keyword">MAX</span>(ask_ars) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> grp_ask_ars) <span class="keyword">AS</span> ask_ars,
+    <span class="keyword">MAX</span>(bid_usd) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> grp_bid_usd) <span class="keyword">AS</span> bid_usd,
+    <span class="keyword">MAX</span>(ask_usd) <span class="keyword">OVER</span> (<span class="keyword">PARTITION BY</span> grp_ask_usd) <span class="keyword">AS</span> ask_usd
+  <span class="keyword">FROM</span> con_grupos
+),
+
+<span class="comment">-- PASO 4: Detectar cambios
+-- Comparo cada fila con la anterior. Solo me quedo con las que cambiaron.</span>
+con_cambios <span class="keyword">AS</span> (
+  <span class="keyword">SELECT</span>
+    datetime, bid_ars, ask_ars, bid_usd, ask_usd,
+    <span class="keyword">LAG</span>(bid_ars) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> prev_bid_ars,
+    <span class="keyword">LAG</span>(ask_ars) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> prev_ask_ars,
+    <span class="keyword">LAG</span>(bid_usd) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> prev_bid_usd,
+    <span class="keyword">LAG</span>(ask_usd) <span class="keyword">OVER</span> (<span class="keyword">ORDER BY</span> datetime) <span class="keyword">AS</span> prev_ask_usd
+  <span class="keyword">FROM</span> rellenada
+)
+
+<span class="comment">-- PASO 5: Resultado final
+-- Filtro filas sin cambio y calculo el TC.</span>
+<span class="keyword">SELECT</span>
+  datetime,
+  bid_ars / ask_usd <span class="keyword">AS</span> tc_venta,
+  ask_ars / bid_usd <span class="keyword">AS</span> tc_compra
+<span class="keyword">FROM</span> con_cambios
+<span class="keyword">WHERE</span>
+  bid_ars <span class="keyword">IS NOT NULL AND</span> ask_usd <span class="keyword">IS NOT NULL</span>
+  <span class="keyword">AND</span> (
+    bid_ars  <span class="keyword">IS DISTINCT FROM</span> prev_bid_ars
+    <span class="keyword">OR</span> ask_ars  <span class="keyword">IS DISTINCT FROM</span> prev_ask_ars
+    <span class="keyword">OR</span> bid_usd  <span class="keyword">IS DISTINCT FROM</span> prev_bid_usd
+    <span class="keyword">OR</span> ask_usd  <span class="keyword">IS DISTINCT FROM</span> prev_ask_usd
+  )
+<span class="keyword">ORDER BY</span> datetime;</pre>
+
+<h3>Visualización — Dashboard Power BI</h3>
+<div class="embed-container">
+<iframe title="Visualizaciones Complif" src="https://app.powerbi.com/view?r=eyJrIjoiYzVkYzIyNjAtMDY1MS00NTcyLWFmNzYtNTY3MWU4ZGMzYjM1IiwidCI6ImExZjUwYTk3LTIxYzAtNDlhNy1hOWQ0LWYyNDRlYmI0MmRhNyIsImMiOjR9" allowFullScreen="true"></iframe>
+</div>
+
+<h3>Insights del análisis</h3>
+<div class="card card-green">
+<h4 style="color:var(--green)">Tendencia</h4>
+<p>El TC bajó -1,31 ARS/USD (-0,6%) durante la sesión. Desde compliance, si un cliente compra volumen alto al inicio (caro) y vende al cierre (barato), pierde plata a propósito. Eso puede ser señal de lavado: le importa mover fondos, no la ganancia.</p>
+</div>
+<div class="card card-purple">
+<h4 style="color:var(--purple)">Spread</h4>
+<p>El pico máximo fue 2,86 (4,2x el promedio de 0,68), alrededor de las 16:20. Un spread alto indica que hay poca gente operando o que el precio se está moviendo mucho. Si un cliente opera consistentemente en esos picos, puede indicar que no le importa el costo (lavado) o que se anticipó al movimiento con información privilegiada.</p>
+</div>
+<div class="card card-blue">
+<h4 style="color:var(--blue)">Frecuencia</h4>
+<p>956 cambios en ~4 horas = un dato nuevo cada ~15 segundos. Esta granularidad permite detectar patrones que a menor frecuencia serían invisibles: operaciones concentradas en el mismo segundo, compras y ventas en intervalos sospechosamente regulares, o movimientos coordinados entre múltiples clientes.</p>
+</div>
+
+</div>
+</section>
+
+<!-- ===================== EJERCICIO 2: APIs ===================== -->
+<section id="apis">
+<div class="container">
+<div class="section-badge">Ejercicio 2</div>
+<h2>APIs</h2>
+
+<h3>Flujo 1: Registro + compra de "Buho"</h3>
+<div class="img-container">
+<img src="img/api_flujo1.png" alt="Flujo de API: registro y compra">
+<div class="img-caption">Diagrama de secuencia: registro de usuario, búsqueda de mascota y compra</div>
+</div>
+
+<h3>Flujo 2: Cambio de nombre a "Mono" (sin recordar usuario)</h3>
+<div class="card card-orange">
+<h4 style="color:var(--orange)">Limitación identificada</h4>
+<p>Todos los endpoints de usuario requieren el username. No existe un mecanismo de recuperación (buscar por email, reset de contraseña). En una API real, existirían endpoints como <code>POST /user/forgot-username</code> y <code>POST /user/reset-password</code>.</p>
+</div>
+<div class="img-container">
+<img src="img/api_flujo2.png" alt="Flujo de API: cambio de nombre">
+<div class="img-caption">Solución: crear usuario nuevo, buscar mascota entre vendidos y actualizar nombre</div>
+</div>
+
+<h3>¿Para qué podríamos usar APIs en Complif?</h3>
+<div class="img-container">
+<img src="img/api_lista.png" alt="APIs en Complif">
+<div class="img-caption">Ecosistema de APIs que Complif consume y provee</div>
+</div>
+
+</div>
+</section>
+
+<!-- ===================== EJERCICIO 3: TICKET ===================== -->
+<section id="ticket">
+<div class="container">
+<div class="section-badge">Ejercicio 3</div>
+<h2>Código — Pedido a TECH</h2>
+
+<div class="card" style="border:2px solid var(--blue);border-radius:12px;background:#fff">
+<p><span class="tag tag-red">Prioridad Alta</span> <span class="tag tag-blue">Integración</span> <span class="tag tag-green">Banco Boquita</span></p>
+<h3 style="margin-top:16px">Integración histórico de precios Dólar MEP — Banco Boquita</h3>
+
+<h4>Contexto / Problema</h4>
+<p>Para realizar el monitoreo transaccional del Banco Boquita, necesitamos valuar las operaciones de los clientes contra el tipo de cambio del dólar MEP al cierre de cada día hábil. Hoy no existe la tabla ni la integración con ningún proveedor de cotizaciones. Sin este dato, no podemos determinar si las transacciones en dólares de un cliente son consistentes con su perfil transaccional.</p>
+
+<h4>Objetivo</h4>
+<p>Extraer automáticamente el precio de cierre del dólar MEP todos los días hábiles y almacenarlo en una tabla histórica que permita cruzar con las transacciones del banco para su monitoreo.</p>
+
+<h4>Fuente de datos</h4>
+<p><strong>Proveedor:</strong> Ámbito (ambito.com)</p>
+<p>La API no está documentada públicamente. Se obtuvo la URL desde DevTools (F12 → Network → XHR) al interactuar con la página de histórico del MEP.</p>
+
+<div class="img-container">
+<img src="img/ambito_network.png" alt="Network de Ámbito">
+<div class="img-caption">API descubierta desde DevTools: endpoint de cotización histórica del dólar MEP</div>
+</div>
+
+<p><strong>Endpoint:</strong> <code>GET https://mercados.ambito.com/dolarrava/mep/historico-general/{fecha_desde}/{fecha_hasta}</code></p>
+
+<div class="img-container">
+<img src="img/ambito_response.png" alt="Response de Ámbito">
+<div class="img-caption">Formato de respuesta: array con fecha y precio de referencia por día</div>
+</div>
+
+<h4>Estructura de la tabla</h4>
+<table>
+<tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+<tr><td>id</td><td>integer (PK)</td><td>Identificador único</td></tr>
+<tr><td>fecha</td><td>date (unique)</td><td>Fecha del día hábil</td></tr>
+<tr><td>precio_cierre_mep</td><td>decimal(10,2)</td><td>Precio de referencia al cierre</td></tr>
+<tr><td>created_at</td><td>timestamp</td><td>Fecha y hora de inserción</td></tr>
+<tr><td>source</td><td>varchar</td><td>Fuente del dato (ej: "ambito")</td></tr>
+</table>
+
+<h4>Proceso de extracción</h4>
+<p>Ejecución automática todos los días hábiles a las 18:00 hs (post cierre de mercado). Llamada GET al endpoint con la fecha del día, parseo de la respuesta JSON e inserción en la tabla. No ejecutar en fines de semana ni feriados.</p>
+
+<p><strong>Lógica de consulta:</strong> cuando se consulta el TC de un día cuyo cierre aún no se cargó, usar el último cierre disponible (criterio T-1, estándar de la industria).</p>
+
+<h4>Criterios de aceptación</h4>
+<div class="step"><div class="step-num">1</div><div class="step-content">La tabla existe en la base de datos y permite consultas SQL</div></div>
+<div class="step"><div class="step-num">2</div><div class="step-content">El job se ejecuta automáticamente a las 18:00 de cada día hábil</div></div>
+<div class="step"><div class="step-num">3</div><div class="step-content">El dato insertado coincide con el valor publicado en Ámbito</div></div>
+<div class="step"><div class="step-num">4</div><div class="step-content">Si el job falla, se envía alerta al equipo de desarrollo. Reintentar 3 veces con intervalo de 15 minutos antes de alertar</div></div>
+<div class="step"><div class="step-num">5</div><div class="step-content">Se puede hacer JOIN con la tabla de transacciones del Banco Boquita por fecha</div></div>
+
+<h4>Consideraciones</h4>
+<p>La API de Ámbito no es pública ni documentada — puede cambiar sin aviso. Monitorear que la estructura de la respuesta no se modifique. Considerar la integración de un calendario de feriados bursátiles de Argentina para determinar días hábiles.</p>
+
+<h4>Evolución futura</h4>
+<p>La API actual devuelve un solo precio de referencia. Si se necesita discriminar compra y venta, habría que buscar un endpoint alternativo. Fuente alternativa de fallback: DolarApi.com. Esta tabla se diseña para el Banco Boquita pero puede estandarizarse para otros clientes de Complif.</p>
+</div>
+
+</div>
+</section>
+
+<!-- ===================== EJERCICIO 4: PROCESOS I ===================== -->
+<section id="procesos1">
+<div class="container">
+<div class="section-badge">Ejercicio 4</div>
+<h2>Procesos (I) — Análisis del diagrama de monitoreo transaccional</h2>
+
+<details open>
+<summary>1. ¿Por qué se crea un caso y luego se busca el NSE?</summary>
+<div class="details-content">
+<p>No conviene buscarlo antes porque implicaría consultar el NSE de todos los clientes del banco de forma permanente, generando millones de consultas innecesarias a la API del bureau de datos. Esto dañaría la performance del sistema y tendría un costo elevado, considerando que solo un porcentaje mínimo de los clientes dispara alertas de monitoreo transaccional. Es más eficiente crear el caso primero (cuando se detecta una operación sospechosa) y recién ahí consultar el NSE actualizado solo para esa persona específica.</p>
+</div>
+</details>
+
+<details>
+<summary>2. ¿Creés que el proceso se pueda trabar?</summary>
+<div class="details-content">
+<p>Sí, identifico varios puntos donde el proceso puede trabarse:</p>
+<p>El más crítico es la <strong>espera de documentación del cliente</strong>. Cuando se envía el requerimiento al usuario final para que suba comprobantes de origen de fondos, no hay un plazo límite ni un timer definido en el diagrama. Si el cliente nunca responde, el caso queda abierto indefinidamente. Debería existir un evento de tiempo que escale o cierre el caso automáticamente si el cliente no responde en X días.</p>
+<p>Otros puntos de posible traba: si la integración con el bureau de datos para consultar el NSE falla o no responde, el flujo no puede avanzar. Si el OCR lee mal un documento y clasifica incorrectamente el tipo de origen de fondos, puede filtrar documentación inválida o rechazar documentación válida. Y si el cliente sube documentación incompleta o incorrecta, se genera un loop de reenvío que podría repetirse indefinidamente sin un límite de intentos.</p>
+<p>Además, el flujo pasa directo a la clasificación de OCR sin una validación previa de que estén todos los documentos requeridos. Si el cliente subió solo uno de tres documentos necesarios, el sistema los procesa igual, recalcula el perfil con información incompleta, y posiblemente rechaza — generando un loop que se podría haber evitado con un chequeo de completitud antes del OCR.</p>
+</div>
+</details>
+
+<details>
+<summary>3. ¿Qué documentación le estás pidiendo al cliente?</summary>
+<div class="details-content">
+<p>Se le piden comprobantes de origen de fondos que justifiquen el monto operado. Dependiendo de la situación del cliente, pueden ser: recibo de sueldo, certificado de ganancias, comprobante de monotributo o ingresos brutos, escritura de venta de inmueble, comprobante de venta de rodado, documentación de venta de acciones o inversiones, certificado de herencia, comprobante de donación recibida, indemnización por despido, documentación societaria (si es dueño de empresa), y cualquier otro documento que acredite de dónde provienen los fondos que está operando.</p>
+</div>
+</details>
+
+<details>
+<summary>4. ¿Por qué hay una clasificación de OCR?</summary>
+<div class="details-content">
+<p>La clasificación de OCR cumple dos funciones. Primero, identifica el tipo de documento (recibo de sueldo, escritura, comprobante de monotributo, etc.) para asignarle el <strong>peso correcto</strong> en el cálculo del perfil transaccional. Cada tipo de ingreso se pondera diferente: un sueldo es recurrente (se recibe todos los meses), mientras que una venta de inmueble es un ingreso único. No pueden tener el mismo impacto en el perfil. Segundo, al clasificar automáticamente el documento, queda organizado y categorizado en el sistema para futuras consultas.</p>
+<p>Para determinar si se aprueba o rechaza evaluaría: vigencia del documento (que no esté vencido), validez legal (que haya sido emitido por la institución correspondiente — ARCA, escribano, empleador), coherencia de los montos declarados con lo que el cliente opera, y que el documento no presente señales de adulteración.</p>
+</div>
+</details>
+
+<details>
+<summary>5. Si fueras analista de Compliance, ¿qué investigarías?</summary>
+<div class="details-content">
+<p>Primero miraría el <strong>comportamiento histórico</strong>: ¿siempre operó estos montos o cambió de repente? Un cambio abrupto es una señal de alerta fuerte.</p>
+<p>Después revisaría <strong>a quién le transfiere</strong> y de quién recibe fondos — si hay transferencias recurrentes con personas que también están siendo alertadas, puede ser lavado coordinado. También verificaría <strong>desde dónde opera</strong>: si declara domicilio en Argentina pero las operaciones se originan desde otro país, es una alerta.</p>
+<p>Investigaría si la persona tiene vínculos con <strong>personas políticamente expuestas (PEPs)</strong>, ya que eso eleva el nivel de riesgo automáticamente.</p>
+<p>Revisaría si los montos operados coinciden con <strong>umbrales regulatorios</strong> — puede ser que algunas personas intentan operar justo por debajo del límite que dispara una alerta, dividiendo operaciones grandes en varias chicas. Es decir, chequear montos y frecuencia de esos montos.</p>
+<p>Finalmente, cruzaría la documentación presentada contra <strong>fuentes externas</strong>: ¿los ingresos declarados en ARCA coinciden con lo que opera? ¿Vendió efectivamente el inmueble que dice haber vendido? ¿El recibo de sueldo es coherente con el rubro y tamaño de la empresa donde trabaja?</p>
+</div>
+</details>
+
+</div>
+</section>
+
+<!-- ===================== EJERCICIO 5: PROCESOS II ===================== -->
+<section id="procesos2">
+<div class="container">
+<div class="section-badge">Ejercicio 5</div>
+<h2>Procesos (II) — Onboarding Persona Jurídica</h2>
+
+<h3>Diagrama de flujo BPMN</h3>
+<div class="img-container">
+<img src="img/bpmn-1.png" alt="BPMN Onboarding Banco Boquita">
+<div class="img-caption">Proceso completo de onboarding de Persona Jurídica al Banco Boquita</div>
+</div>
+
+<h3>Oportunidades de automatización</h3>
+
+<div class="step"><div class="step-num" style="background:var(--green)">1</div><div class="step-content"><strong>Envío de formulario al cliente</strong><br>Hoy el asesor lo manda manualmente. Se puede automatizar: cuando marca "empresa interesada", el sistema envía automáticamente el formulario precompletado.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">2</div><div class="step-content"><strong>Cálculo de matriz de riesgo</strong><br>Hoy alguien lo calcula manualmente. Se puede automatizar: el sistema calcula automáticamente el score según reglas predefinidas (tipo de empresa, rubro, facturación, país).</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">3</div><div class="step-content"><strong>Derivación según riesgo</strong><br>El sistema asigna automáticamente a analista o líder según el resultado de la matriz.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">4</div><div class="step-content"><strong>Verificación de documentación (OCR)</strong><br>OCR lee los documentos, extrae fechas de vencimiento y datos clave. Solo genera alerta para revisión humana cuando detecta algo dudoso.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">5</div><div class="step-content"><strong>Notificación de rechazo (templates)</strong><br>El sistema envía automáticamente un mail con template predefinido indicando qué documentación falta o está vencida.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">6</div><div class="step-content"><strong>Cálculo de perfil transaccional</strong><br>El sistema calcula el perfil basándose en los comprobantes de ingresos, aplicando los factores de ponderación configurados.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">7</div><div class="step-content"><strong>Derivación a institucional/PyME</strong><br>Según el resultado del perfil transaccional, el sistema deriva automáticamente al equipo correspondiente.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">8</div><div class="step-content"><strong>Comunicación de bienvenida (templates)</strong><br>Una vez aprobado, el sistema envía automáticamente mail de bienvenida con número de cuenta y productos asignados.</div></div>
+
+<div class="step"><div class="step-num" style="background:var(--green)">9</div><div class="step-content"><strong>Carga en sistema core (eliminar data entry manual)</strong><br>Los datos del formulario y documentación se integran directamente al sistema core vía API. El equipo de data entry se reconvierte a control de calidad.</div></div>
+
+<div class="card card-orange">
+<h4 style="color:var(--orange)">Tareas que NO se automatizan</h4>
+<p><strong>Validar interés de la empresa</strong> → requiere relación humana<br>
+<strong>Aprobar cliente</strong> → decisión humana basada en criterio profesional<br>
+<strong>Solicitar documentación adicional (líder)</strong> → requiere juicio profesional</p>
+</div>
+
+</div>
+</section>
+
+<!-- ===================== EJERCICIO 6: COMUNICACIÓN ===================== -->
+<section id="comunicacion">
+<div class="container">
+<div class="section-badge">Ejercicio 6</div>
+<h2>Comunicación — Situación Real</h2>
+
+<div class="card card-blue">
+<p>Este ejercicio se realiza en vivo durante la entrevista. Interpretaré el rol de CSA del cliente Banco Boquita en una reunión con el líder del equipo de Compliance, gestionando expectativas sobre funcionalidades que Complif no tiene actualmente.</p>
+</div>
+
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p><strong>Carolina Belén Rosa</strong> · Lic. en Negocios y Tecnología</p>
+<p>Challenge Técnico — Customer Success Analyst · Complif · Abril 2026</p>
+</div>
+</footer>
+
 </body>
 </html>
