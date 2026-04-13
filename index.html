@@ -276,10 +276,33 @@ con_cambios <span class="keyword">AS</span> (
 </div>
 
 <h3>¿Para qué podríamos usar APIs en Complif?</h3>
-<div class="img-container">
-<img src="Api3.png" alt="APIs en Complif">
-<div class="img-caption">Ecosistema de APIs que Complif consume y provee</div>
-</div>
+<h4>APIs que consume Complif (fuentes externas)</h4>
+<ul>
+<li>RENAPER → verificación de identidad (DNI, datos biométricos)</li>
+<li>ARCA (ex AFIP) → situación fiscal, ingresos declarados, monotributo</li>
+<li>Registros de propiedad → escrituras, declaración de bienes</li>
+<li>Bureaus de datos (Nosis, Veraz) → antecedentes crediticios, nivel socioeconómico</li>
+<li>Listas UIF → personas investigadas por lavado de dinero</li>
+<li>Listas internacionales (OFAC, ONU) → personas sancionadas o políticamente expuestas (PEPs)</li>
+<li>Cotizaciones de mercado en tiempo real → valuación de operaciones y detección de insider trading</li>
+<li>APIs de noticias/alertas → detección automática si un cliente aparece en causas judiciales</li>
+</ul>
+
+<h4>APIs que consume Complif (sistemas del banco cliente)</h4>
+<ul>
+<li>Sistema core del banco → transacciones, transferencias, plazos fijos, compra de USD</li>
+<li>Base de clientes → datos personales, cuentas, productos contratados</li>
+<li>Sistemas documentales → documentos del cliente para validación vía OCR</li>
+</ul>
+
+<h4>APIs que crea Complif (para sus clientes)</h4>
+<ul>
+<li>Recepción de transacciones → el banco envía sus operaciones diarias para monitoreo</li>
+<li>Alertas → Complif notifica al banco cuando detecta operaciones sospechosas</li>
+<li>Consulta de casos → el banco consulta el estado de un caso de compliance</li>
+<li>Consulta de perfiles transaccionales → el banco verifica el límite operativo de un cliente</li>
+<li>Cruce entre entidades → detección de patrones sospechosos de un mismo cliente operando en varias entidades</li>
+</ul>
 
 </div>
 </section>
