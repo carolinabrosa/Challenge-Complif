@@ -141,7 +141,7 @@ html{scroll-behavior:smooth}
 <p>Cambié de estrategia y decidí pivotear la tabla: en vez de tener filas separadas por moneda, armo columnas separadas (bid_ars, ask_ars, bid_usd, ask_usd). Cuando una fila es de ARS, las columnas de USD quedan vacías (NULL), y viceversa. De esta forma puedo leer todo horizontalmente y no tener que ir buscando y matcheando entre filas de distintas monedas.</p>
 
 <div class="img-container">
-<img src="img/sql_step1.png" alt="Paso 1: tabla pivoteada con NULLs">
+<img src="sqlnull" alt="Paso 1: tabla pivoteada con NULLs">
 <div class="img-caption">Resultado del pivoteo: cada fila tiene ARS o USD, el otro queda NULL</div>
 </div>
 
@@ -150,12 +150,12 @@ html{scroll-behavior:smooth}
 <p>Para implementar esto usé una técnica en dos pasos. Primero creo un contador por cada columna que solo se incrementa cuando aparece un valor nuevo (no-NULL). Esto genera "grupos": cada grupo tiene un único valor real y cero o más NULLs debajo. Después, dentro de cada grupo, uso <code>MAX()</code> para obtener ese valor real. MAX ignora NULLs, y como cada grupo tiene un solo valor, me lo devuelve directamente. Elegí MAX en vez de FIRST_VALUE porque MAX sin ORDER BY es más performante: el motor no necesita ordenar dentro de cada partición.</p>
 
 <div class="img-container">
-<img src="img/sql_step2.png" alt="Paso 2: grupos creados">
+<img src="sqlgrupo.png" alt="Paso 2: grupos creados">
 <div class="img-caption">Los grupos se crean con COUNT: el contador sube solo cuando aparece un valor nuevo</div>
 </div>
 
 <div class="img-container">
-<img src="img/sql_step3.png" alt="Paso 3: valores rellenados">
+<img src="sqlfinal.png" alt="Paso 3: valores rellenados">
 <div class="img-caption">MAX dentro de cada grupo rellena los NULLs con el último valor conocido</div>
 </div>
 
@@ -419,7 +419,7 @@ con_cambios <span class="keyword">AS</span> (
 
 <h3>Diagrama de flujo BPMN</h3>
 <div class="img-container">
-<img src="img/bpmn-1.png" alt="BPMN Onboarding Banco Boquita">
+<img src="bpmn.png" alt="BPMN Onboarding Banco Boquita">
 <div class="img-caption">Proceso completo de onboarding de Persona Jurídica al Banco Boquita</div>
 </div>
 
