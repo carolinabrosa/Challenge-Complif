@@ -154,28 +154,17 @@ html{scroll-behavior:smooth}
 <div class="img-caption">Los grupos se crean con COUNT: el contador sube solo cuando aparece un valor nuevo</div>
 </div>
 
-<div class="img-container">
-<img src="sqlfinal.png" alt="Paso 3: valores rellenados">
-<div class="img-caption">MAX dentro de cada grupo rellena los NULLs con el último valor conocido</div>
-</div>
 
 <h4>5. Filtrar filas sin cambio real</h4>
 <p>Después de rellenar, muchas filas consecutivas quedan con los mismos 4 valores. Calcular el tipo de cambio en esas filas es innecesario. Entonces uso <code>LAG</code> sobre los 4 valores para comparar cada fila con la inmediata de arriba. Si los 4 son iguales, descarto la fila. Solo me quedo con las filas donde al menos uno cambió. Esto responde directamente a la pista del enunciado: "un cambio de precio ocurre cuando cambia alguno de los precios".</p>
 
 <h4>6. Calcular tipo de cambio</h4>
 <p>Solo en las filas que sobreviven el filtro, calculo: TC Venta = bid_ars ÷ ask_usd y TC Compra = ask_ars ÷ bid_usd. Esto minimiza la cantidad de divisiones que ejecuta el motor.</p>
-
-<h3>Funciones técnicas de SQL</h3>
-<table>
-<tr><th>Función</th><th>Qué hace</th><th>Por qué la elegí</th></tr>
-<tr><td><code>CASE WHEN</code></td><td>Devuelve un valor según condición</td><td>Pivoteo: si la moneda es ARS pongo el bid en bid_ars, si no queda NULL</td></tr>
-<tr><td><code>COUNT() OVER</code></td><td>Cuenta valores no-NULL acumulados</td><td>Crea grupos: el contador sube solo con valores nuevos</td></tr>
-<tr><td><code>MAX() OVER</code></td><td>Obtiene el máximo dentro de cada grupo</td><td>Rellena NULLs. Más performante que FIRST_VALUE porque no requiere ORDER BY</td></tr>
-<tr><td><code>LAG() OVER</code></td><td>Trae el valor de la fila anterior</td><td>Detecta cambios: comparo actual vs anterior</td></tr>
-<tr><td><code>IS DISTINCT FROM</code></td><td>Compara tratando NULL como valor</td><td>Evita que la primera fila se pierda (donde LAG devuelve NULL)</td></tr>
-<tr><td><code>CTEs (WITH)</code></td><td>Subconsultas encadenadas con nombre</td><td>Organiza la query en pasos legibles</td></tr>
-</table>
-
+<div class="img-container">
+<img src="sqlfinal.png" alt="Paso 3: valores rellenados">
+<div class="img-caption">Tabla con TC completos </div>
+</div>
+  
 <h3>Query final</h3>
 <pre><span class="comment">-- PASO 1: Pivotear la tabla
 -- Separo ARS y USD en columnas distintas. Donde no hay dato, queda NULL.</span>
